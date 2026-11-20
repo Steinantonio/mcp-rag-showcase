@@ -1,0 +1,86 @@
+{
+  "contractVersion": 1,
+  "derivation": "Hand-derived from the documents and docs/tool-contract.md §3-4, then checked against the contract arithmetic. Expectations are document ids, never scores. See corpus/README.md and ADR 0002.",
+  "cases": [
+    {
+      "id": "rotate-api-key",
+      "query": "how do I rotate an api key",
+      "k": 3,
+      "expectDocIds": ["ops-credentials", "ops-credentials", "ops-credentials"],
+      "expectGrounded": true,
+      "note": "Three chunks of the same document. Intentional: proves multi-chunk ordering inside one document, not just document selection."
+    },
+    {
+      "id": "leaked-key-revocation",
+      "query": "revoke an api key that leaked",
+      "k": 3,
+      "expectDocIds": ["ops-credentials", "ops-changelog", "ops-credentials"],
+      "expectGrounded": true,
+      "note": "ops-changelog ranks second because the rotation window entry mentions leaked credentials. Defensible, and a useful reminder that lexical matching follows vocabulary, not intent."
+    },
+    {
+      "id": "sev1-definition",
+      "query": "what is a sev1 incident",
+      "k": 3,
+      "expectDocIds": ["ops-glossary", "ops-faq", "ops-escalation"],
+      "expectGrounded": true,
+      "note": "The glossary wins on term density (SEV1 is defined there), the FAQ on the short answer, escalation on the ladder."
+    },
+    {
+      "id": "restore-backup",
+      "query": "restore a database backup",
+      "k": 3,
+      "expectDocIds": ["ops-backups", "ops-data-retention", "ops-faq"],
+      "expectGrounded": true,
+      "note": "Three distinct documents: the procedure, the retention consequence, and the permission question."
+    },
+    {
+      "id": "rollback-artifact",
+      "query": "roll back the previous artifact",
+      "k": 3,
+      "expectDocIds": ["ops-deployments", "ops-glossary", "ops-changelog"],
+      "expectGrounded": true,
+      "note": "Phrased around 'artifact' because 'roll back a bad deployment' drags onboarding in through shared words. The query was changed; the algorithm was not."
+    },
+    {
+      "id": "quarterly-access-review",
+      "query": "quarterly access review",
+      "k": 3,
+      "expectDocIds": ["ops-access-review", "ops-access-review", "ops-changelog"],
+      "expectGrounded": true,
+      "note": "'quarterly' is rare enough to dominate the ranking (high IDF), which is the property this case protects."
+    },
+    {
+      "id": "egress-rules",
+      "query": "egress rules",
+      "k": 3,
+      "expectDocIds": ["ops-networking", "ops-changelog", "ops-networking"],
+      "expectGrounded": true,
+      "note": "Rare-term case: 'egress' appears in very few chunks, so IDF carries the ranking almost alone."
+    },
+    {
+      "id": "error-budget",
+      "query": "error budget",
+      "k": 3,
+      "expectDocIds": ["ops-monitoring", "ops-glossary", "ops-cost-controls"],
+      "expectGrounded": true,
+      "note": "Two-word query where the compound meaning is split across a policy document, a definition and a budget document."
+    },
+    {
+      "id": "no-match",
+      "query": "kubernetes helm chart",
+      "k": 5,
+      "expectDocIds": [],
+      "expectGrounded": false,
+      "note": "Deliberate miss. No token in the corpus. Proves the engine never invents a result and that 'grounded' is honest."
+    },
+    {
+      "id": "repeated-token",
+      "query": "backup backup restore restore",
+      "k": 3,
+      "expectDocIds": ["ops-data-retention", "ops-changelog", "ops-backups"],
+      "expectGrounded": true,
+      "note": "Repeated tokens count repeatedly, per contract §4. The result is counterintuitive, which is exactly why it is pinned: a change to query-side deduplication must break this test."
+    }
+  ]
+}

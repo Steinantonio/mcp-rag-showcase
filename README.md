@@ -189,7 +189,10 @@ The only thing this repo consumes is CI minutes and a free instance that sleeps 
 ## Honest limitations
 
 - **Lexical retrieval only.** No embeddings, so no synonym or paraphrase matching. "reset my password" will not
-  find a document that only says "credential recovery". That is a documented trade-off, not an oversight.
+  find a document that only says "credential recovery". Measured example: the query
+  `"how long do we keep backups"` ranks `ops-monitoring` first, because its "What we do not monitor" section shares
+  common words with the question. That is a documented trade-off, not an oversight, and it is the single clearest
+  argument for why embeddings exist.
 - **Extractive answers.** The answer is stitched from source sentences, so it reads like a quote, not prose.
 - **Cold start.** Render's free tier spins down after 15 minutes idle; the first request pays ~60 s.
 - **Tiny corpus.** 15 documents. This demonstrates the shape of a pipeline, not retrieval quality.

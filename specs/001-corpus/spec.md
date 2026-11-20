@@ -78,8 +78,9 @@ against any implementation, including a broken one.
 - **Given** the documents of each cluster (`credentials`/`runbook`/`faq`, `backups`/`data-retention`,
   `incidents`/`escalation`)
 - **When** their distinct token sets are compared
-- **Then** each pair shares at least 20% of its distinct tokens, so ordering must be decided by BM25 and the
-  tie-break rule rather than by vocabulary alone
+- **Then** each pair shares at least 20% of the **smaller** document's distinct token set (containment, not Jaccard,
+  because a small document inside a large vocabulary would otherwise never qualify), so ordering must be decided by
+  BM25 and the tie-break rule rather than by vocabulary alone
 
 ### AC-001-06 — A deliberate miss exists
 
@@ -114,3 +115,5 @@ against any implementation, including a broken one.
 | Date | Change | Reason | Approver |
 |---|---|---|---|
 | 2026-11-20 | Approved | Unblocks W1 | owner |
+| 2026-11-20 | AC-001-05 restated as containment over the smaller token set | Jaccard understates overlap when vocabularies differ in size; the measured pairs sit at 0.13–0.23 Jaccard but 0.25–0.39 containment | architect |
+| 2026-11-20 | Golden case `rollback-artifact` rephrased from `"roll back a bad deployment"` to `"roll back the previous artifact"` | The original query ranked two onboarding chunks second and third, because "deployment" is a shared word. The query was a poor probe of the corpus, not evidence of a defect | architect |
