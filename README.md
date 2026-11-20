@@ -1,12 +1,10 @@
 # mcp-rag-showcase
 
-**One RAG contract. Two MCP servers. Same answers.**
+**One retrieval contract. Two MCP servers — C# and Python. Same answers, proven by a test.**
 
-A minimal, fully free reference implementation of a retrieval-augmented tool surface exposed through the
-[Model Context Protocol](https://modelcontextprotocol.io) — written twice, in **C# (.NET 10)** and **Python 3.12**,
-sharing one corpus and one frozen scoring spec, and proven equivalent by a conformance test.
-
-No API keys. No paid models. No cloud spend. No vector database.
+A minimal, fully free reference implementation of a RAG tool surface over the
+[Model Context Protocol](https://modelcontextprotocol.io), written twice against one frozen spec and one shared
+corpus. No API keys, no model downloads, no vector database, no cloud spend.
 
 [![CI](https://github.com/Steinantonio/mcp-rag-showcase/actions/workflows/ci.yml/badge.svg)](https://github.com/Steinantonio/mcp-rag-showcase/actions/workflows/ci.yml)
 ![.NET](https://img.shields.io/badge/.NET-10-512BD4)
@@ -14,224 +12,95 @@ No API keys. No paid models. No cloud spend. No vector database.
 ![MCP](https://img.shields.io/badge/MCP-2.4%20%2F%202.3-6E56CF)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
----
+## What it proves
 
-## What this repository actually proves
-
-Most "MCP + RAG" demos are one language, one model call, and a screenshot. This one is built to be *checked*:
-
-| Claim | Evidence |
+| Claim | How you check it |
 |---|---|
-| The MCP tool contract is language-agnostic | The same three tools, same JSON shapes, implemented independently in C# and Python |
-| Retrieval is reproducible | BM25 with frozen parameters, no model, no randomness — byte-identical ranking on the same input |
-| The two implementations agree | `tests/conformance` replays 10 golden queries against both servers and asserts the same `docId` sequence |
-| It runs in a container | Two Dockerfiles, one `compose.yaml`, smoke-tested in CI |
-| It is deployable for free | Live REST + OpenAPI surface on Render's free tier; `render.yaml` is in the repo |
-| Infrastructure is code, not clicks | `infra/main.bicep` is validated on every push and **never deployed** (so it costs nothing) |
+| The tool contract is language-agnostic | Three tools, implemented independently in C# and Python |
+| Retrieval is reproducible | BM25 with frozen constants, no model, no randomness |
+| Both implementations agree | `parity_runner.py` replays 10 golden queries and compares `docId` sequences |
+| It runs in a container | `compose.yaml`, smoke-tested in CI over MCP |
+| It costs nothing | No secret, no paid dependency; Render free tier |
 
-## Architecture
-
-```mermaid
-flowchart LR
-  subgraph clients["Clients"]
-    A["MCP client<br/>Claude Desktop · MCP Inspector"]
-    B["Browser<br/>Swagger UI /docs"]
-  end
-
-  subgraph py["Python service — Docker, Render free"]
-    R["REST facade<br/>FastAPI + OpenAPI 3.1"]
-    M["MCP server<br/>streamable HTTP · /mcp"]
-    I[("BM25 index<br/>built at boot")]
-    R --> I
-    M --> I
-  end
-
-  subgraph net["C# service — Docker, CI"]
-    N["MCP server<br/>ModelContextProtocol 2.4"]
-    J[("BM25 index<br/>built at boot")]
-    N --> J
-  end
-
-  C[("corpus/<br/>15 markdown docs")] -.-> I
-  C -.-> J
-
-  A -->|JSON-RPC| M
-  A -->|JSON-RPC| N
-  B -->|HTTP| R
-```
-
-Both services are self-contained: same corpus, same tokenizer, same BM25 constants, no shared runtime and no
-network hop between them. The duplication is the point — see [ADR 0002](docs/adr/0002-parity-contract.md).
-
-## The contract (v1)
-
-Three tools, identical in both servers. Full JSON Schemas, chunking rules and scoring constants live in
-[`docs/tool-contract.md`](docs/tool-contract.md), which is the single source of truth for both implementations.
-
-| Tool | Input | Output | Purpose |
-|---|---|---|---|
-| `search` | `query: string`, `k?: int = 5` | `chunks[]` with `docId`, `chunkId`, `score`, `text`, `citation` | Retrieval surface |
-| `get_document` | `docId: string` | full markdown + metadata | Grounding, no truncation games |
-| `answer` | `query: string`, `k?: int = 3` | `answer: string`, `citations[]`, `grounded: bool` | Extractive answer with citations |
-
-`answer` is **extractive**: it selects sentences from retrieved chunks and cites them. There is no generator
-model, so the output is reproducible and the demo never depends on a vendor. See
-[ADR 0001](docs/adr/0001-lexical-retrieval.md).
-
-## Live demo
-
-| Surface | URL | Notes |
-|---|---|---|
-| Swagger UI | `https://mcp-rag-showcase.onrender.com/docs` | Free tier sleeps after 15 min idle — first request takes ~60 s |
-| OpenAPI 3.1 | `https://mcp-rag-showcase.onrender.com/openapi.json` | Generated from the app, kept in sync by CI |
-| MCP endpoint | `https://mcp-rag-showcase.onrender.com/mcp` | Streamable HTTP transport |
-| Health | `https://mcp-rag-showcase.onrender.com/health` | Corpus stats + build info |
-
-Quick pokes once it is awake:
-
-```powershell
-$svc = "https://mcp-rag-showcase.onrender.com"
-
-curl.exe -s "$svc/health"
-
-curl.exe -s "$svc/api/v1/search?q=rotate%20api%20key&k=3" | ConvertFrom-Json |
-  Select-Object -ExpandProperty results | Format-Table chunkId, score, heading
-
-Invoke-RestMethod -Method Post -Uri "$svc/api/v1/answer" -ContentType "application/json" `
-  -Body (@{ query = "how do I rotate an api key"; k = 3 } | ConvertTo-Json)
-```
-
-## Run it locally
-
-Requires .NET 10 SDK and Python 3.12. Docker is optional and only needed for the container path.
+## Quick start
 
 ```powershell
 git clone https://github.com/Steinantonio/mcp-rag-showcase.git
 cd mcp-rag-showcase
 
-./scripts/bootstrap.ps1   # creates .venv, installs deps, restores .NET
-./scripts/test.ps1        # unit tests + cross-language conformance
-./scripts/serve.ps1       # runs the Python service on http://localhost:8080
-./scripts/up.ps1          # docker compose up: both servers (8080, 8081)
-./scripts/smoke.ps1       # calls both servers, prints rankings side by side
+./scripts/bootstrap.ps1   # .venv + pip + dotnet restore
+./scripts/test.ps1        # 72 pytest + 26 xunit + 10/10 parity
+./scripts/serve.ps1       # Python on :8080 (REST + MCP)
 ```
 
-`smoke.ps1` is the money shot — the same query against both servers, over MCP, identical citations. Real output:
+Both services, side by side over MCP:
+
+```powershell
+./scripts/up.ps1          # docker compose up, both containers
+./scripts/smoke.ps1       # same query, both servers, citations compared
+```
+
+## Surfaces
+
+| Surface | Python | .NET |
+|---|---|---|
+| MCP (streamable HTTP) | `:8080/mcp` | `:8081/mcp` |
+| REST + OpenAPI | `:8080/docs` | — |
+| Health | `:8080/health` | `:8081/health` |
+
+Tools in both: `search(query, k)`, `get_document(docId)`, `answer(query, k)`. Answers are **extractive** — source
+sentences with citations, no generator model.
+
+## Real output
 
 ```
-query: how do I rotate an api key
-  python  ops-credentials#02  ops-credentials#00  ops-credentials#01
-  dotnet  ops-credentials#02  ops-credentials#00  ops-credentials#01
-  MATCH
-
+$ ./scripts/smoke.ps1
 query: restore a database backup
   python  ops-backups#00  ops-data-retention#01  ops-faq#01
   dotnet  ops-backups#00  ops-data-retention#01  ops-faq#01
   MATCH
+
+5/5 queries matched
 ```
 
 Full transcript: [`docs/demo.md`](docs/demo.md).
 
-## Use it from an MCP client
-
-```json
-{
-  "mcpServers": {
-    "rag-dotnet": {
-      "command": "dotnet",
-      "args": ["run", "--project", "src/Mcp.Rag.Dotnet"]
-    },
-    "rag-python": {
-      "command": ".venv/Scripts/python.exe",
-      "args": ["-m", "mcp_rag_py", "--stdio"]
-    }
-  }
-}
-```
-
-Both servers support stdio (for desktop clients) and streamable HTTP (for containers). Same tools either way.
-
-Over HTTP, both expose the same route — Python on `:8080`, .NET on `:8081`:
-
-```json
-{
-  "mcpServers": {
-    "rag-python-http": { "url": "http://localhost:8080/mcp" },
-    "rag-dotnet-http": { "url": "http://localhost:8081/mcp" }
-  }
-}
-```
-
-## Layout
+## Repository map
 
 ```
-corpus/                    15 authored markdown docs + golden/queries.json
-src/Mcp.Rag.Dotnet/        Core/ (tokenizer, chunker, BM25, engine) + Adapters/ (MCP tools)
-src/mcp_rag_py/            core/ (pure) + adapters/ (REST, MCP, filesystem) + apps/ (CLI, root)
-tests/conformance/         golden vectors replayed against both servers
-tests/arch/                import-linter and NetArchTest boundaries
-compose.yaml               both services, healthchecks, read-only corpus mount
-infra/                     Dockerfile x2, main.bicep
-scripts/                   bootstrap · test · serve · up · smoke · down · clean
-specs/                     SDD: constitution, spec/plan/tasks per capability
-agents/                    the six agent definitions and their conventions
-templates/                 handoff, delegation brief, ADR, evidence log
-docs/                      concepts, methodology, tool contract, ADRs, plan, OpenAPI
-render.yaml                free-tier deployment of the Python service
+corpus/                 15 authored docs + 10 golden queries (frozen)
+src/mcp_rag_py/         core/ (pure) · adapters/ (REST, MCP, filesystem) · apps/
+src/Mcp.Rag.Dotnet/     Core/ (tokenizer, chunker, BM25, engine) · Adapters/
+tests/                  unit · conformance · integration · arch · fixtures
+specs/ agents/          spec-driven delivery and the six agent roles
+docs/                   concepts · tool contract · ADRs · demo · deploy · OpenAPI
+infra/                  Dockerfile x2 · main.bicep (validated, never deployed)
 ```
-
-## How it was built
-
-The repository is spec-driven, and the process is an artifact too: `specs/` holds the constitution, the specs and the
-task lists; `agents/` holds the six agent roles that built it; `docs/methodology.md` explains the loop, and
-`docs/ai/` records what each agent produced, what was validated and what was rejected.
-
-- **Mental model first:** [`docs/concepts.md`](docs/concepts.md) — four analogies and three diagrams.
-- **Process:** [`docs/methodology.md`](docs/methodology.md) and [`AGENTS.md`](AGENTS.md).
-- **What must be true, and in which order:** [`specs/README.md`](specs/README.md).
-
-## Zero-cost by design
-
-| Concern | Choice | Cost |
-|---|---|---|
-| CI | GitHub Actions on a public repo | $0 |
-| Images | GHCR, public packages | $0 |
-| Hosting | Render free web service (0.1 CPU / 512 MB, 750 h/mo) | $0 |
-| Model / embeddings | none — BM25 + extractive answer | $0 |
-| Vector DB | none — in-memory index over 15 documents | $0 |
-| IaC | Bicep validated in CI, never applied | $0 |
-| Secrets | none required to run or test | $0 |
-
-The only thing this repo consumes is CI minutes and a free instance that sleeps when nobody is looking.
-
-## Honest limitations
-
-- **Lexical retrieval only.** No embeddings, so no synonym or paraphrase matching. "reset my password" will not
-  find a document that only says "credential recovery". Measured example: the query
-  `"how long do we keep backups"` ranks `ops-monitoring` first, because its "What we do not monitor" section shares
-  common words with the question. That is a documented trade-off, not an oversight, and it is the single clearest
-  argument for why embeddings exist.
-- **Extractive answers.** The answer is stitched from source sentences, so it reads like a quote, not prose.
-- **Cold start.** Render's free tier spins down after 15 minutes idle; the first request pays ~60 s.
-- **Tiny corpus.** 15 documents. This demonstrates the shape of a pipeline, not retrieval quality.
-- **No auth.** The corpus is authored for this repo and public on purpose. Adding auth would add a key to manage,
-  which defeats the "clone and run" goal.
-- **Index rebuilt at boot.** Render free has an ephemeral filesystem, so the index is in memory and rebuilt from
-  `corpus/` on every start. At this size it takes milliseconds.
 
 ## Design decisions
 
 | ADR | Decision |
 |---|---|
-| [0001](docs/adr/0001-lexical-retrieval.md) | Lexical BM25 retrieval and an extractive answer instead of embeddings + LLM |
-| [0002](docs/adr/0002-parity-contract.md) | Freeze the scoring spec; prove parity with shared golden vectors |
-| [0003](docs/adr/0003-http-surfaces-and-render.md) | MCP over streamable HTTP plus a REST/OpenAPI facade; host one free service |
+| [0001](docs/adr/0001-lexical-retrieval.md) | BM25 and extractive answers instead of embeddings + LLM |
+| [0002](docs/adr/0002-parity-contract.md) | Freeze the spec; prove parity with hand-derived vectors |
+| [0003](docs/adr/0003-http-surfaces-and-render.md) | MCP + REST facade; one free service |
+| [0004](docs/adr/0004-architecture-ports-and-adapters.md) | Ports and adapters with a pure core |
 
-## Not built on purpose
+Architecture in four analogies: [`docs/concepts.md`](docs/concepts.md).
 
-Reranking, hybrid search, streaming answers, auth, multi-tenancy, a vector store, an admin UI, and an eval harness
-with recall@k. Each one is a real feature; none of them makes this demo more convincing per line of code.
-The roadmap in [`docs/plan.md`](docs/plan.md) says what would come next and why it is deferred.
+## Honest limitations
+
+- **Lexical retrieval only.** No synonyms, no paraphrase. `"how long do we keep backups"` ranks a monitoring
+  document first because of shared words — measured, documented, not hidden.
+- **Extractive answers.** Stitched quotes, not prose.
+- **15 documents.** Demonstrates the shape of a pipeline, not retrieval quality.
+- **Cold start.** The deployed free instance sleeps after 15 idle minutes and takes ~1 minute to wake.
+- **No auth.** The corpus is authored for this repo and is public on purpose.
+
+## Docs
+
+[Concepts](docs/concepts.md) · [Tool contract](docs/tool-contract.md) · [Demo](docs/demo.md) ·
+[Deploy](docs/deploy.md) · [Methodology](docs/methodology.md) · [Build plan](docs/plan.md) · [OpenAPI](docs/openapi.yaml)
 
 ## License
 
