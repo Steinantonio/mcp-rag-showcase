@@ -61,7 +61,12 @@ have never been proven at all. CI is the mechanism that turns local evidence int
 
 - **Given** a change that sets `K1 = 2.0` in one implementation only
 - **When** CI runs
-- **Then** the parity job fails and names the first diverging query
+- **Then** the parity job fails with `score drift on <chunkId>`, naming the implementation pair
+
+Note: this criterion originally said "the parity job fails and names the first diverging query", assuming the
+`docId` sequence would move. It does not — the ranking survives a 70% score change on this corpus. The suite was
+extended to compare scores with a `1e-4` tolerance (see ADR 0002, amendment). Without that extension the criterion
+would have been a claim nobody had tested.
 
 ## 4. Rules and invariants
 
