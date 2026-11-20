@@ -27,3 +27,6 @@
 - T-001-08 is intentionally deferred: the assertions need the chunker and tokenizer, which are SPEC-002 artifacts.
   Writing them here would mean writing a second, throwaway chunker.
 - The corpus is frozen after T-001-07. Any later change is a new spec.
+- **Process note:** this file was created during W0.5 scaffolding with the wave already executed, so the statuses
+  were recorded at the end rather than as the work progressed. From SPEC-002 onward, tasks start as `todo` and are
+  updated in the same commit as the change.
