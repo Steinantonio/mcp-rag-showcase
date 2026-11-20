@@ -84,7 +84,7 @@ if it needs more, split it.
 |---|---|---|---|---|
 | SPEC-000 | Product definition: the claims this repo must prove | approved | R-01…R-10 | W0 |
 | SPEC-001 | Corpus and golden vectors | approved | R-04, R-06 | W1 |
-| SPEC-002 | Retrieval core and PoC surface (CLI + REST) | approved | R-02, R-03, R-05, R-07 | W2 |
+| SPEC-002 | Retrieval core and PoC surface (CLI + REST) | implemented | R-02, R-03, R-05, R-07 | W2 |
 | SPEC-003 | MCP servers (Python + .NET) and cross-language parity | draft (written at wave start) | R-01, R-03 | W3 |
 | SPEC-004 | Automation, containers and free-tier deploy | draft (written at wave start) | R-08, R-09 | W4 |
 | SPEC-005 | CI and contract guards | draft (written at wave start) | R-10 | W5 |

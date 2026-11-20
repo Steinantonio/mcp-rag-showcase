@@ -69,9 +69,10 @@ against any implementation, including a broken one.
 ### AC-001-04 — Ranking is non-trivial
 
 - **Given** the 10 golden queries
-- **When** each query is tokenized
-- **Then** for every query at least two distinct documents contain at least one query token, so a result is never
-  decided by a single-document corpus artifact
+- **When** each query that is expected to return at least one result is tokenized
+- **Then** for every such query at least two distinct documents contain at least one query token, so a result is
+  never decided by a single-document corpus artifact. The deliberate-miss case is exempt by definition and is
+  covered by AC-001-06
 
 ### AC-001-05 — Near-duplicates exist on purpose
 
@@ -117,3 +118,4 @@ against any implementation, including a broken one.
 | 2026-11-20 | Approved | Unblocks W1 | owner |
 | 2026-11-20 | AC-001-05 restated as containment over the smaller token set | Jaccard understates overlap when vocabularies differ in size; the measured pairs sit at 0.13–0.23 Jaccard but 0.25–0.39 containment | architect |
 | 2026-11-20 | Golden case `rollback-artifact` rephrased from `"roll back a bad deployment"` to `"roll back the previous artifact"` | The original query ranked two onboarding chunks second and third, because "deployment" is a shared word. The query was a poor probe of the corpus, not evidence of a defect | architect |
+| 2026-11-20 | AC-001-04 exempted the deliberate-miss case | The criterion said "for every query", which contradicts AC-001-06: a query with no lexical match must produce zero matching documents by design. Found while implementing the assertion in SPEC-002 | architect |

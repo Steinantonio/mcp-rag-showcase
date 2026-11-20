@@ -1,6 +1,6 @@
 # SPEC-002 — Retrieval core and PoC surface (CLI + REST)
 
-- **Status:** approved
+- **Status:** implemented
 - **Owner:** architect
 - **Approved by:** orchestrator (owner decision, 2026-11-20)
 - **Requirements:** R-02, R-03, R-05, R-07
