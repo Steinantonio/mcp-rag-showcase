@@ -2,7 +2,6 @@ FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 
 WORKDIR /src
 
-COPY Mcp.Rag.Showcase.sln .
 COPY src/Mcp.Rag.Dotnet/Mcp.Rag.Dotnet.csproj src/Mcp.Rag.Dotnet/
 RUN dotnet restore src/Mcp.Rag.Dotnet/Mcp.Rag.Dotnet.csproj
 

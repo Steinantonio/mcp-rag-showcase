@@ -1,0 +1,18 @@
+# Keep the build context small and free of host artifacts.
+.git
+.github
+.venv
+**/bin
+**/obj
+**/__pycache__
+**/*.egg-info
+.pytest_cache
+.vs
+.vscode
+tests
+docs
+specs
+agents
+templates
+scripts
+*.md
