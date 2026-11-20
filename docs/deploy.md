@@ -13,6 +13,10 @@ variable is required beyond `PORT`, which Render injects.
 | Health check | `/health` |
 | Public surfaces | `/docs`, `/openapi.json`, `/api/v1/*`, `/mcp` |
 
+Both MCP servers run **stateless**: no session id, no affinity, every request stands alone. That matters on a free
+tier behind a proxy, and it is why the same smoke script works against a container, a local process and the deployed
+service.
+
 The .NET server is **not** deployed. One free service means one cold start and one set of logs; the .NET side is
 proven in CI and in compose. See ADR 0003 for the trade-off.
 

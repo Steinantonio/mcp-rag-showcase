@@ -41,7 +41,9 @@ def create_app(directory: str | Path | None = None) -> FastAPI:
     # protecting anything. Set MCP_REBINDING_PROTECTION=true to re-enable it.
     rebinding = os.environ.get("MCP_REBINDING_PROTECTION", "").lower() in {"1", "true", "yes"}
     security = TransportSecuritySettings(enable_dns_rebinding_protection=rebinding)
-    app.mount("/", mcp.streamable_http_app(transport_security=security))
+    # Stateless: no session affinity, safe behind any load balancer or proxy, and identical to the .NET
+    # transport. The demo is read-only, so there is no state worth keeping between requests.
+    app.mount("/", mcp.streamable_http_app(stateless_http=True, transport_security=security))
     return app
 
 

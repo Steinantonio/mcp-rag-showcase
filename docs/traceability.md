@@ -16,7 +16,7 @@ it. A requirement is `done` only when the evidence exists and is real.
 | R-07 | The core imports no framework, transport or filesystem API | SPEC-002 | `lint-imports`: `1 kept, 0 broken` | proven (Python; .NET in SPEC-003) |
 | R-08 | The system runs in containers from one compose file | SPEC-004 | `compose.yaml` written; `docker compose up` pending CI (SPEC-005) | partial |
 | R-09 | Deployment costs nothing and requires no secret | SPEC-004 | `docs/deploy.md`, `render.yaml`; live URL pending owner | todo |
-| R-10 | CI verifies build, tests, parity, containers, IaC and contract drift | SPEC-005 | `.github/workflows/ci.yml` | todo |
+| R-10 | CI verifies build, tests, parity, containers, IaC and contract drift | SPEC-005 | `.github/workflows/ci.yml` (5 jobs); first green run pending push | partial |
 
 ## Accepted risks
 

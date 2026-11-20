@@ -48,7 +48,7 @@ static async Task<int> RunHttp(string[] httpArgs)
         {
             status = "ok",
             implementation = "dotnet",
-            contractVersion = 1,
+            contractVersion = Contract.Version,
             corpus = new
             {
                 documents = stats.Documents,

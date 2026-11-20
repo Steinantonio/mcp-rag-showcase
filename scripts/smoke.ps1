@@ -4,8 +4,10 @@
     Calls the same MCP tool on both servers and compares the citations.
 
 .DESCRIPTION
-    Speaks MCP over streamable HTTP: initialize, notifications/initialized, tools/call.
-    Compares only the citation list (docId#NN), never prose or floats.
+    Speaks MCP over streamable HTTP. Both services run stateless, so every request stands alone and no
+    session id is involved. Compares only the citation list (docId#NN), never prose or floats.
+
+    Works on Windows PowerShell 5.1 and PowerShell 7+.
 
 .PARAMETER Python
     Base URL of the Python service.
@@ -32,10 +34,18 @@ $queries = @(
     "egress rules"
 )
 
-function Get-McpSession {
-    param([string] $BaseUrl)
+function ConvertFrom-SseBody {
+    param([string] $Text)
 
-    $body = @{
+    $data = ($Text -split "`n" | Where-Object { $_ -match '^data:\s*' }) -replace '^data:\s*', ''
+    if (-not $data) { throw "empty MCP response" }
+    return ($data | Select-Object -Last 1) | ConvertFrom-Json
+}
+
+function Invoke-McpTool {
+    param([string] $BaseUrl, [string] $Tool, [hashtable] $Arguments)
+
+    $initialize = @{
         jsonrpc = "2.0"; id = 1; method = "initialize"
         params  = @{
             protocolVersion = "2025-06-18"; capabilities = @{}
@@ -43,44 +53,21 @@ function Get-McpSession {
         }
     } | ConvertTo-Json -Depth 6
 
-    $response = Invoke-WebRequest -UseBasicParsing -Method Post -Uri "$BaseUrl/mcp" `
-        -ContentType "application/json" -Headers @{ Accept = "application/json, text/event-stream" } -Body $body
+    Invoke-WebRequest -UseBasicParsing -Method Post -Uri "$BaseUrl/mcp" `
+        -ContentType "application/json" -Headers @{ Accept = "application/json, text/event-stream" } `
+        -Body $initialize | Out-Null
 
-    $sessionKey = $response.Headers.Keys | Where-Object { $_ -match 'session' } | Select-Object -First 1
-    # .NET's HTTP transport is stateless: it returns no session id and every request stands alone.
-    if (-not $sessionKey) { return $null }
-    $session = $response.Headers[$sessionKey]
-
-    $notify = @{ jsonrpc = "2.0"; method = "notifications/initialized" } | ConvertTo-Json -Depth 4
-    Invoke-WebRequest -UseBasicParsing -Method Post -Uri "$BaseUrl/mcp" -ContentType "application/json" `
-        -Headers @{ Accept = "application/json, text/event-stream"; 'mcp-session-id' = $session } -Body $notify | Out-Null
-
-    return $session
-}
-
-function ConvertFrom-SseBody {
-    param([string] $Text)
-    $data = ($Text -split "`n" | Where-Object { $_ -match '^data:\s*' }) -replace '^data:\s*', ''
-    if (-not $data) { throw "empty MCP response" }
-    return ($data | Select-Object -Last 1) | ConvertFrom-Json
-}
-
-function Invoke-McpTool {
-    param([string] $BaseUrl, [string] $Session, [string] $Tool, [hashtable] $Arguments)
-
-    $body = @{
+    $call = @{
         jsonrpc = "2.0"; id = 2; method = "tools/call"
         params  = @{ name = $Tool; arguments = $Arguments }
     } | ConvertTo-Json -Depth 6
 
-    $headers = @{ Accept = "application/json, text/event-stream" }
-    if ($Session) { $headers['mcp-session-id'] = $Session }
-
-    $response = Invoke-WebRequest -UseBasicParsing -Method Post -Uri "$BaseUrl/mcp" -ContentType "application/json" `
-        -Headers $headers -Body $body
+    $response = Invoke-WebRequest -UseBasicParsing -Method Post -Uri "$BaseUrl/mcp" `
+        -ContentType "application/json" -Headers @{ Accept = "application/json, text/event-stream" } `
+        -Body $call
 
     $envelope = ConvertFrom-SseBody -Text $response.Content
-    if ($envelope.error) { throw "MCP error: $($envelope.error.message)" }
+    if ($envelope.error) { throw "MCP error from $BaseUrl : $($envelope.error.message)" }
 
     $result = $envelope.result
     if ($result.structuredContent) { return $result.structuredContent }
@@ -93,12 +80,9 @@ Write-Host "Python : $Python"
 Write-Host ".NET   : $Dotnet"
 Write-Host ""
 
-$pySession = Get-McpSession -BaseUrl $Python
-$netSession = Get-McpSession -BaseUrl $Dotnet
-
 foreach ($query in $queries) {
-    $py = Invoke-McpTool -BaseUrl $Python -Session $pySession -Tool "search" -Arguments @{ query = $query; k = 3 }
-    $net = Invoke-McpTool -BaseUrl $Dotnet -Session $netSession -Tool "search" -Arguments @{ query = $query; k = 3 }
+    $py = Invoke-McpTool -BaseUrl $Python -Tool "search" -Arguments @{ query = $query; k = 3 }
+    $net = Invoke-McpTool -BaseUrl $Dotnet -Tool "search" -Arguments @{ query = $query; k = 3 }
 
     $pyIds = @($py.results | ForEach-Object { $_.citation })
     $netIds = @($net.results | ForEach-Object { $_.citation })

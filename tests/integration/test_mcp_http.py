@@ -1,4 +1,7 @@
-"""One process, two surfaces: REST and MCP over HTTP, SPEC-004 AC-004-01."""
+"""One process, two surfaces: REST and MCP over HTTP, SPEC-004 AC-004-01.
+
+Both services run MCP stateless, so no session id is involved: every request stands alone.
+"""
 
 from __future__ import annotations
 
@@ -34,18 +37,30 @@ def test_mcp_lists_the_three_tools() -> None:
         handshake = client.post("/mcp", json=INITIALIZE, headers=MCP_HEADERS)
         assert handshake.status_code == 200, handshake.text
 
-        session = handshake.headers.get("mcp-session-id")
-        assert session, "server did not return a session id"
-
-        headers = {**MCP_HEADERS, "mcp-session-id": session}
-        client.post("/mcp", json={"jsonrpc": "2.0", "method": "notifications/initialized"}, headers=headers)
-
         response = client.post(
             "/mcp",
             json={"jsonrpc": "2.0", "id": 2, "method": "tools/list", "params": {}},
-            headers=headers,
+            headers=MCP_HEADERS,
         )
 
     assert response.status_code == 200, response.text
     for tool in ("search", "get_document", "answer"):
         assert tool in response.text, f"{tool} missing from tools/list"
+
+
+def test_mcp_tool_call_returns_citations() -> None:
+    with TestClient(create_app()) as client:
+        client.post("/mcp", json=INITIALIZE, headers=MCP_HEADERS)
+        response = client.post(
+            "/mcp",
+            json={
+                "jsonrpc": "2.0",
+                "id": 3,
+                "method": "tools/call",
+                "params": {"name": "search", "arguments": {"query": "restore a database backup", "k": 2}},
+            },
+            headers=MCP_HEADERS,
+        )
+
+    assert response.status_code == 200, response.text
+    assert "ops-backups#00" in response.text
