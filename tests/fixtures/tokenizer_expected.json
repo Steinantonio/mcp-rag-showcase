@@ -1,0 +1,1664 @@
+[
+  {
+    "input": "Rotate the API key! (v2)",
+    "tokens": [
+      "rotate",
+      "the",
+      "api",
+      "key",
+      "v2"
+    ]
+  },
+  {
+    "input": "snake_case-name.v2",
+    "tokens": [
+      "snake",
+      "case",
+      "name",
+      "v2"
+    ]
+  },
+  {
+    "input": "Ação crédito Débito",
+    "tokens": [
+      "ação",
+      "crédito",
+      "débito"
+    ]
+  },
+  {
+    "input": "sev1 sev-1 sev_1",
+    "tokens": [
+      "sev1",
+      "sev",
+      "1",
+      "sev",
+      "1"
+    ]
+  },
+  {
+    "input": "UPPERCASE lowercase MiXeD",
+    "tokens": [
+      "uppercase",
+      "lowercase",
+      "mixed"
+    ]
+  },
+  {
+    "input": "",
+    "tokens": []
+  },
+  {
+    "input": "   ",
+    "tokens": []
+  },
+  {
+    "input": "!!! --- ... ???",
+    "tokens": []
+  },
+  {
+    "input": "hello",
+    "tokens": [
+      "hello"
+    ]
+  },
+  {
+    "input": "the quick brown fox",
+    "tokens": [
+      "the",
+      "quick",
+      "brown",
+      "fox"
+    ]
+  },
+  {
+    "input": "123 456 789",
+    "tokens": [
+      "123",
+      "456",
+      "789"
+    ]
+  },
+  {
+    "input": "a1 b2 c3",
+    "tokens": [
+      "a1",
+      "b2",
+      "c3"
+    ]
+  },
+  {
+    "input": "aaa bbb ccc",
+    "tokens": [
+      "aaa",
+      "bbb",
+      "ccc"
+    ]
+  },
+  {
+    "input": "...leading-punctuation",
+    "tokens": [
+      "leading",
+      "punctuation"
+    ]
+  },
+  {
+    "input": "trailing-punctuation...",
+    "tokens": [
+      "trailing",
+      "punctuation"
+    ]
+  },
+  {
+    "input": "multiple   spaces   here",
+    "tokens": [
+      "multiple",
+      "spaces",
+      "here"
+    ]
+  },
+  {
+    "input": "underscore_between_words",
+    "tokens": [
+      "underscore",
+      "between",
+      "words"
+    ]
+  },
+  {
+    "input": "hyphen-between-words",
+    "tokens": [
+      "hyphen",
+      "between",
+      "words"
+    ]
+  },
+  {
+    "input": "period.between.words",
+    "tokens": [
+      "period",
+      "between",
+      "words"
+    ]
+  },
+  {
+    "input": "numbers123and456letters",
+    "tokens": [
+      "numbers123and456letters"
+    ]
+  },
+  {
+    "input": "UPPERCASE123mixed",
+    "tokens": [
+      "uppercase123mixed"
+    ]
+  },
+  {
+    "input": "cafe naive Noel",
+    "tokens": [
+      "cafe",
+      "naive",
+      "noel"
+    ]
+  },
+  {
+    "input": "straße",
+    "tokens": [
+      "straße"
+    ]
+  },
+  {
+    "input": "señor",
+    "tokens": [
+      "señor"
+    ]
+  },
+  {
+    "input": "how do I rotate an api key",
+    "tokens": [
+      "how",
+      "do",
+      "i",
+      "rotate",
+      "an",
+      "api",
+      "key"
+    ]
+  },
+  {
+    "input": "restore a database backup",
+    "tokens": [
+      "restore",
+      "a",
+      "database",
+      "backup"
+    ]
+  },
+  {
+    "input": "what is a sev1 incident",
+    "tokens": [
+      "what",
+      "is",
+      "a",
+      "sev1",
+      "incident"
+    ]
+  },
+  {
+    "input": "quarterly access review",
+    "tokens": [
+      "quarterly",
+      "access",
+      "review"
+    ]
+  },
+  {
+    "input": "roll back the previous artifact",
+    "tokens": [
+      "roll",
+      "back",
+      "the",
+      "previous",
+      "artifact"
+    ]
+  },
+  {
+    "input": "egress rules",
+    "tokens": [
+      "egress",
+      "rules"
+    ]
+  },
+  {
+    "input": "error budget",
+    "tokens": [
+      "error",
+      "budget"
+    ]
+  },
+  {
+    "input": "kubernetes helm chart",
+    "tokens": [
+      "kubernetes",
+      "helm",
+      "chart"
+    ]
+  },
+  {
+    "input": "backup backup restore restore",
+    "tokens": [
+      "backup",
+      "backup",
+      "restore",
+      "restore"
+    ]
+  },
+  {
+    "input": "rotation",
+    "tokens": [
+      "rotation"
+    ]
+  },
+  {
+    "input": "api",
+    "tokens": [
+      "api"
+    ]
+  },
+  {
+    "input": "key",
+    "tokens": [
+      "key"
+    ]
+  },
+  {
+    "input": "SEV1",
+    "tokens": [
+      "sev1"
+    ]
+  },
+  {
+    "input": "SEV2",
+    "tokens": [
+      "sev2"
+    ]
+  },
+  {
+    "input": "database",
+    "tokens": [
+      "database"
+    ]
+  },
+  {
+    "input": "backup",
+    "tokens": [
+      "backup"
+    ]
+  },
+  {
+    "input": "restore",
+    "tokens": [
+      "restore"
+    ]
+  },
+  {
+    "input": "deployment",
+    "tokens": [
+      "deployment"
+    ]
+  },
+  {
+    "input": "rollback",
+    "tokens": [
+      "rollback"
+    ]
+  },
+  {
+    "input": "incident",
+    "tokens": [
+      "incident"
+    ]
+  },
+  {
+    "input": "escalation",
+    "tokens": [
+      "escalation"
+    ]
+  },
+  {
+    "input": "onboarding",
+    "tokens": [
+      "onboarding"
+    ]
+  },
+  {
+    "input": "credentials",
+    "tokens": [
+      "credentials"
+    ]
+  },
+  {
+    "input": "monitoring",
+    "tokens": [
+      "monitoring"
+    ]
+  },
+  {
+    "input": "networking",
+    "tokens": [
+      "networking"
+    ]
+  },
+  {
+    "input": "access",
+    "tokens": [
+      "access"
+    ]
+  },
+  {
+    "input": "review",
+    "tokens": [
+      "review"
+    ]
+  },
+  {
+    "input": "retention",
+    "tokens": [
+      "retention"
+    ]
+  },
+  {
+    "input": "cost",
+    "tokens": [
+      "cost"
+    ]
+  },
+  {
+    "input": "budget",
+    "tokens": [
+      "budget"
+    ]
+  },
+  {
+    "input": "api key rotation procedure",
+    "tokens": [
+      "api",
+      "key",
+      "rotation",
+      "procedure"
+    ]
+  },
+  {
+    "input": "database backup restore process",
+    "tokens": [
+      "database",
+      "backup",
+      "restore",
+      "process"
+    ]
+  },
+  {
+    "input": "incident response escalation ladder",
+    "tokens": [
+      "incident",
+      "response",
+      "escalation",
+      "ladder"
+    ]
+  },
+  {
+    "input": "quarterly access review meeting",
+    "tokens": [
+      "quarterly",
+      "access",
+      "review",
+      "meeting"
+    ]
+  },
+  {
+    "input": "deployment pipeline canary rollout",
+    "tokens": [
+      "deployment",
+      "pipeline",
+      "canary",
+      "rollout"
+    ]
+  },
+  {
+    "input": "error budget burn rate",
+    "tokens": [
+      "error",
+      "budget",
+      "burn",
+      "rate"
+    ]
+  },
+  {
+    "input": "service level objective monitoring",
+    "tokens": [
+      "service",
+      "level",
+      "objective",
+      "monitoring"
+    ]
+  },
+  {
+    "input": "credential vault audit log",
+    "tokens": [
+      "credential",
+      "vault",
+      "audit",
+      "log"
+    ]
+  },
+  {
+    "input": "postmortem action item owner",
+    "tokens": [
+      "postmortem",
+      "action",
+      "item",
+      "owner"
+    ]
+  },
+  {
+    "input": "blast radius confirmation step",
+    "tokens": [
+      "blast",
+      "radius",
+      "confirmation",
+      "step"
+    ]
+  },
+  {
+    "input": "quoted text",
+    "tokens": [
+      "quoted",
+      "text"
+    ]
+  },
+  {
+    "input": "(parenthesized)",
+    "tokens": [
+      "parenthesized"
+    ]
+  },
+  {
+    "input": "[bracketed]",
+    "tokens": [
+      "bracketed"
+    ]
+  },
+  {
+    "input": "key: value pair",
+    "tokens": [
+      "key",
+      "value",
+      "pair"
+    ]
+  },
+  {
+    "input": "path/to/resource",
+    "tokens": [
+      "path",
+      "to",
+      "resource"
+    ]
+  },
+  {
+    "input": "user@domain",
+    "tokens": [
+      "user",
+      "domain"
+    ]
+  },
+  {
+    "input": "https://example.com",
+    "tokens": [
+      "https",
+      "example",
+      "com"
+    ]
+  },
+  {
+    "input": "version 2.4.0",
+    "tokens": [
+      "version",
+      "2",
+      "4",
+      "0"
+    ]
+  },
+  {
+    "input": "api-key-v2",
+    "tokens": [
+      "api",
+      "key",
+      "v2"
+    ]
+  },
+  {
+    "input": "backup_restore_v3",
+    "tokens": [
+      "backup",
+      "restore",
+      "v3"
+    ]
+  },
+  {
+    "input": "SEV1-SEV2 escalation",
+    "tokens": [
+      "sev1",
+      "sev2",
+      "escalation"
+    ]
+  },
+  {
+    "input": "99.9% uptime",
+    "tokens": [
+      "99",
+      "9",
+      "uptime"
+    ]
+  },
+  {
+    "input": "#channel-name",
+    "tokens": [
+      "channel",
+      "name"
+    ]
+  },
+  {
+    "input": "@username",
+    "tokens": [
+      "username"
+    ]
+  },
+  {
+    "input": "a",
+    "tokens": [
+      "a"
+    ]
+  },
+  {
+    "input": "ab",
+    "tokens": [
+      "ab"
+    ]
+  },
+  {
+    "input": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "tokens": [
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    ]
+  },
+  {
+    "input": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+    "tokens": [
+      "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    ]
+  },
+  {
+    "input": "query about keys with details",
+    "tokens": [
+      "query",
+      "about",
+      "keys",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about keys with details",
+    "tokens": [
+      "query",
+      "about",
+      "keys",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about keys with details",
+    "tokens": [
+      "query",
+      "about",
+      "keys",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about keys with details",
+    "tokens": [
+      "query",
+      "about",
+      "keys",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about keys with details",
+    "tokens": [
+      "query",
+      "about",
+      "keys",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about keys with details",
+    "tokens": [
+      "query",
+      "about",
+      "keys",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about backups with details",
+    "tokens": [
+      "query",
+      "about",
+      "backups",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about backups with details",
+    "tokens": [
+      "query",
+      "about",
+      "backups",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about backups with details",
+    "tokens": [
+      "query",
+      "about",
+      "backups",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about backups with details",
+    "tokens": [
+      "query",
+      "about",
+      "backups",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about backups with details",
+    "tokens": [
+      "query",
+      "about",
+      "backups",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about backups with details",
+    "tokens": [
+      "query",
+      "about",
+      "backups",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about incidents with details",
+    "tokens": [
+      "query",
+      "about",
+      "incidents",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about incidents with details",
+    "tokens": [
+      "query",
+      "about",
+      "incidents",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about incidents with details",
+    "tokens": [
+      "query",
+      "about",
+      "incidents",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about incidents with details",
+    "tokens": [
+      "query",
+      "about",
+      "incidents",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about incidents with details",
+    "tokens": [
+      "query",
+      "about",
+      "incidents",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about incidents with details",
+    "tokens": [
+      "query",
+      "about",
+      "incidents",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about deployment with details",
+    "tokens": [
+      "query",
+      "about",
+      "deployment",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about deployment with details",
+    "tokens": [
+      "query",
+      "about",
+      "deployment",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about deployment with details",
+    "tokens": [
+      "query",
+      "about",
+      "deployment",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about deployment with details",
+    "tokens": [
+      "query",
+      "about",
+      "deployment",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about deployment with details",
+    "tokens": [
+      "query",
+      "about",
+      "deployment",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about deployment with details",
+    "tokens": [
+      "query",
+      "about",
+      "deployment",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about access with details",
+    "tokens": [
+      "query",
+      "about",
+      "access",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about access with details",
+    "tokens": [
+      "query",
+      "about",
+      "access",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about access with details",
+    "tokens": [
+      "query",
+      "about",
+      "access",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about access with details",
+    "tokens": [
+      "query",
+      "about",
+      "access",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about access with details",
+    "tokens": [
+      "query",
+      "about",
+      "access",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about access with details",
+    "tokens": [
+      "query",
+      "about",
+      "access",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about monitoring with details",
+    "tokens": [
+      "query",
+      "about",
+      "monitoring",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about monitoring with details",
+    "tokens": [
+      "query",
+      "about",
+      "monitoring",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about monitoring with details",
+    "tokens": [
+      "query",
+      "about",
+      "monitoring",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about monitoring with details",
+    "tokens": [
+      "query",
+      "about",
+      "monitoring",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about monitoring with details",
+    "tokens": [
+      "query",
+      "about",
+      "monitoring",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about monitoring with details",
+    "tokens": [
+      "query",
+      "about",
+      "monitoring",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about networking with details",
+    "tokens": [
+      "query",
+      "about",
+      "networking",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about networking with details",
+    "tokens": [
+      "query",
+      "about",
+      "networking",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about networking with details",
+    "tokens": [
+      "query",
+      "about",
+      "networking",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about networking with details",
+    "tokens": [
+      "query",
+      "about",
+      "networking",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about networking with details",
+    "tokens": [
+      "query",
+      "about",
+      "networking",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about networking with details",
+    "tokens": [
+      "query",
+      "about",
+      "networking",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about cost with details",
+    "tokens": [
+      "query",
+      "about",
+      "cost",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about cost with details",
+    "tokens": [
+      "query",
+      "about",
+      "cost",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about cost with details",
+    "tokens": [
+      "query",
+      "about",
+      "cost",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about cost with details",
+    "tokens": [
+      "query",
+      "about",
+      "cost",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about cost with details",
+    "tokens": [
+      "query",
+      "about",
+      "cost",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about cost with details",
+    "tokens": [
+      "query",
+      "about",
+      "cost",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about retention with details",
+    "tokens": [
+      "query",
+      "about",
+      "retention",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about retention with details",
+    "tokens": [
+      "query",
+      "about",
+      "retention",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about retention with details",
+    "tokens": [
+      "query",
+      "about",
+      "retention",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about retention with details",
+    "tokens": [
+      "query",
+      "about",
+      "retention",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about retention with details",
+    "tokens": [
+      "query",
+      "about",
+      "retention",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about retention with details",
+    "tokens": [
+      "query",
+      "about",
+      "retention",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about onboarding with details",
+    "tokens": [
+      "query",
+      "about",
+      "onboarding",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about onboarding with details",
+    "tokens": [
+      "query",
+      "about",
+      "onboarding",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about onboarding with details",
+    "tokens": [
+      "query",
+      "about",
+      "onboarding",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about onboarding with details",
+    "tokens": [
+      "query",
+      "about",
+      "onboarding",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about onboarding with details",
+    "tokens": [
+      "query",
+      "about",
+      "onboarding",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "query about onboarding with details",
+    "tokens": [
+      "query",
+      "about",
+      "onboarding",
+      "with",
+      "details"
+    ]
+  },
+  {
+    "input": "pad item 142",
+    "tokens": [
+      "pad",
+      "item",
+      "142"
+    ]
+  },
+  {
+    "input": "pad item 143",
+    "tokens": [
+      "pad",
+      "item",
+      "143"
+    ]
+  },
+  {
+    "input": "pad item 144",
+    "tokens": [
+      "pad",
+      "item",
+      "144"
+    ]
+  },
+  {
+    "input": "pad item 145",
+    "tokens": [
+      "pad",
+      "item",
+      "145"
+    ]
+  },
+  {
+    "input": "pad item 146",
+    "tokens": [
+      "pad",
+      "item",
+      "146"
+    ]
+  },
+  {
+    "input": "pad item 147",
+    "tokens": [
+      "pad",
+      "item",
+      "147"
+    ]
+  },
+  {
+    "input": "pad item 148",
+    "tokens": [
+      "pad",
+      "item",
+      "148"
+    ]
+  },
+  {
+    "input": "pad item 149",
+    "tokens": [
+      "pad",
+      "item",
+      "149"
+    ]
+  },
+  {
+    "input": "pad item 150",
+    "tokens": [
+      "pad",
+      "item",
+      "150"
+    ]
+  },
+  {
+    "input": "pad item 151",
+    "tokens": [
+      "pad",
+      "item",
+      "151"
+    ]
+  },
+  {
+    "input": "pad item 152",
+    "tokens": [
+      "pad",
+      "item",
+      "152"
+    ]
+  },
+  {
+    "input": "pad item 153",
+    "tokens": [
+      "pad",
+      "item",
+      "153"
+    ]
+  },
+  {
+    "input": "pad item 154",
+    "tokens": [
+      "pad",
+      "item",
+      "154"
+    ]
+  },
+  {
+    "input": "pad item 155",
+    "tokens": [
+      "pad",
+      "item",
+      "155"
+    ]
+  },
+  {
+    "input": "pad item 156",
+    "tokens": [
+      "pad",
+      "item",
+      "156"
+    ]
+  },
+  {
+    "input": "pad item 157",
+    "tokens": [
+      "pad",
+      "item",
+      "157"
+    ]
+  },
+  {
+    "input": "pad item 158",
+    "tokens": [
+      "pad",
+      "item",
+      "158"
+    ]
+  },
+  {
+    "input": "pad item 159",
+    "tokens": [
+      "pad",
+      "item",
+      "159"
+    ]
+  },
+  {
+    "input": "pad item 160",
+    "tokens": [
+      "pad",
+      "item",
+      "160"
+    ]
+  },
+  {
+    "input": "pad item 161",
+    "tokens": [
+      "pad",
+      "item",
+      "161"
+    ]
+  },
+  {
+    "input": "pad item 162",
+    "tokens": [
+      "pad",
+      "item",
+      "162"
+    ]
+  },
+  {
+    "input": "pad item 163",
+    "tokens": [
+      "pad",
+      "item",
+      "163"
+    ]
+  },
+  {
+    "input": "pad item 164",
+    "tokens": [
+      "pad",
+      "item",
+      "164"
+    ]
+  },
+  {
+    "input": "pad item 165",
+    "tokens": [
+      "pad",
+      "item",
+      "165"
+    ]
+  },
+  {
+    "input": "pad item 166",
+    "tokens": [
+      "pad",
+      "item",
+      "166"
+    ]
+  },
+  {
+    "input": "pad item 167",
+    "tokens": [
+      "pad",
+      "item",
+      "167"
+    ]
+  },
+  {
+    "input": "pad item 168",
+    "tokens": [
+      "pad",
+      "item",
+      "168"
+    ]
+  },
+  {
+    "input": "pad item 169",
+    "tokens": [
+      "pad",
+      "item",
+      "169"
+    ]
+  },
+  {
+    "input": "pad item 170",
+    "tokens": [
+      "pad",
+      "item",
+      "170"
+    ]
+  },
+  {
+    "input": "pad item 171",
+    "tokens": [
+      "pad",
+      "item",
+      "171"
+    ]
+  },
+  {
+    "input": "pad item 172",
+    "tokens": [
+      "pad",
+      "item",
+      "172"
+    ]
+  },
+  {
+    "input": "pad item 173",
+    "tokens": [
+      "pad",
+      "item",
+      "173"
+    ]
+  },
+  {
+    "input": "pad item 174",
+    "tokens": [
+      "pad",
+      "item",
+      "174"
+    ]
+  },
+  {
+    "input": "pad item 175",
+    "tokens": [
+      "pad",
+      "item",
+      "175"
+    ]
+  },
+  {
+    "input": "pad item 176",
+    "tokens": [
+      "pad",
+      "item",
+      "176"
+    ]
+  },
+  {
+    "input": "pad item 177",
+    "tokens": [
+      "pad",
+      "item",
+      "177"
+    ]
+  },
+  {
+    "input": "pad item 178",
+    "tokens": [
+      "pad",
+      "item",
+      "178"
+    ]
+  },
+  {
+    "input": "pad item 179",
+    "tokens": [
+      "pad",
+      "item",
+      "179"
+    ]
+  },
+  {
+    "input": "pad item 180",
+    "tokens": [
+      "pad",
+      "item",
+      "180"
+    ]
+  },
+  {
+    "input": "pad item 181",
+    "tokens": [
+      "pad",
+      "item",
+      "181"
+    ]
+  },
+  {
+    "input": "pad item 182",
+    "tokens": [
+      "pad",
+      "item",
+      "182"
+    ]
+  },
+  {
+    "input": "pad item 183",
+    "tokens": [
+      "pad",
+      "item",
+      "183"
+    ]
+  },
+  {
+    "input": "pad item 184",
+    "tokens": [
+      "pad",
+      "item",
+      "184"
+    ]
+  },
+  {
+    "input": "pad item 185",
+    "tokens": [
+      "pad",
+      "item",
+      "185"
+    ]
+  },
+  {
+    "input": "pad item 186",
+    "tokens": [
+      "pad",
+      "item",
+      "186"
+    ]
+  },
+  {
+    "input": "pad item 187",
+    "tokens": [
+      "pad",
+      "item",
+      "187"
+    ]
+  },
+  {
+    "input": "pad item 188",
+    "tokens": [
+      "pad",
+      "item",
+      "188"
+    ]
+  },
+  {
+    "input": "pad item 189",
+    "tokens": [
+      "pad",
+      "item",
+      "189"
+    ]
+  },
+  {
+    "input": "pad item 190",
+    "tokens": [
+      "pad",
+      "item",
+      "190"
+    ]
+  },
+  {
+    "input": "pad item 191",
+    "tokens": [
+      "pad",
+      "item",
+      "191"
+    ]
+  },
+  {
+    "input": "pad item 192",
+    "tokens": [
+      "pad",
+      "item",
+      "192"
+    ]
+  },
+  {
+    "input": "pad item 193",
+    "tokens": [
+      "pad",
+      "item",
+      "193"
+    ]
+  },
+  {
+    "input": "pad item 194",
+    "tokens": [
+      "pad",
+      "item",
+      "194"
+    ]
+  },
+  {
+    "input": "pad item 195",
+    "tokens": [
+      "pad",
+      "item",
+      "195"
+    ]
+  },
+  {
+    "input": "pad item 196",
+    "tokens": [
+      "pad",
+      "item",
+      "196"
+    ]
+  },
+  {
+    "input": "pad item 197",
+    "tokens": [
+      "pad",
+      "item",
+      "197"
+    ]
+  },
+  {
+    "input": "pad item 198",
+    "tokens": [
+      "pad",
+      "item",
+      "198"
+    ]
+  },
+  {
+    "input": "pad item 199",
+    "tokens": [
+      "pad",
+      "item",
+      "199"
+    ]
+  }
+]

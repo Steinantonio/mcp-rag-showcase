@@ -7,9 +7,9 @@ it. A requirement is `done` only when the evidence exists and is real.
 
 | Req | Statement | Spec | Evidence | Status |
 |---|---|---|---|---|
-| R-01 | Two independent MCP servers (.NET, Python) expose the same three tools | SPEC-003 | parity runner | todo |
+| R-01 | Two independent MCP servers (.NET, Python) expose the same three tools | SPEC-003 | `dotnet run` lists `search/get_document/answer`; `python -m mcp_rag_py.apps.mcp` same | proven |
 | R-02 | Retrieval is deterministic for the same corpus and query | SPEC-002 | `tests/integration/test_determinism.py` (byte-identical across processes) | proven |
-| R-03 | Both implementations return the same `docId` sequence per golden query | SPEC-003 | `tests/conformance/` | todo |
+| R-03 | Both implementations return the same `docId` sequence per golden query | SPEC-003 | `parity_runner.py`: 10/10 cases identical | proven |
 | R-04 | The corpus is authored here and auditable by hand | SPEC-001 | `corpus/*.md`, `corpus/README.md`, 21/21 shape checks | proven |
 | R-05 | Answers are extractive and always carry citations | SPEC-002 | `tests/unit/test_engine.py::test_answer_is_extractive_ac_002_05` | proven |
 | R-06 | A query with no lexical match returns zero chunks | SPEC-001, SPEC-002 | golden `no-match` + `test_search_with_no_lexical_match_returns_nothing` | proven |

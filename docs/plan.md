@@ -18,7 +18,7 @@ Status legend: `todo` · `in progress` · `done`
 | W0.5 | Methodology | SPEC-000 | `AGENTS.md`, `specs/` (constitution + 000/001/002), `agents/` (6 + pilot), `templates/`, `docs/methodology.md`, ADR 0004 | **done** |
 | W1 | Corpus | SPEC-001 | 15 authored docs + `corpus/golden/queries.json` with hand-derived expectations | **done** |
 | W2 | PoC core | SPEC-002 | Pure core (tokenizer, chunker, BM25, engine) + CLI + REST/OpenAPI + tests | **done** |
-| W3 | MCP + parity | SPEC-003 | MCP servers in Python and .NET, tokenizer differential test, parity runner, Dockerfiles | todo |
+| W3 | MCP + parity | SPEC-003 | MCP servers in Python and .NET, tokenizer differential test, parity runner, Dockerfiles | **done** |
 | W4 | Automation | SPEC-004 | compose, PowerShell lifecycle scripts, `render.yaml`, deploy notes, demo transcript | todo |
 | W5 | CI + polish | SPEC-005 | GitHub Actions (5 jobs), OpenAPI drift check, badges, final README pass | todo |
 | W6 | Optional | — | Ollama generator behind a flag, MCP Inspector walkthrough | deferred |
