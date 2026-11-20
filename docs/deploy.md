@@ -26,7 +26,7 @@ proven in CI and in compose. See ADR 0003 for the trade-off.
 2. In the Render dashboard: **New → Blueprint**, select the repository. Render reads `render.yaml`.
 3. Accept the free plan and create the service.
 4. Wait for the first build (about 3–6 minutes: Python base image plus `pip install`).
-5. Open `https://<service>.onrender.com/health`. The first request after 15 idle minutes takes about a minute.
+5. Open `https://mcp-rag-showcase.onrender.com/health`. The first request after 15 idle minutes takes about a minute.
 
 If you prefer not to use the blueprint, create a **Web Service → Docker**, point it at `infra/Dockerfile.py`, set the
 health check path to `/health`, and leave every environment variable empty.
@@ -44,7 +44,7 @@ health check path to `/health`, and leave every environment variable empty.
 ## Verifying a deploy
 
 ```powershell
-$svc = "https://<service>.onrender.com"
+$svc = "https://mcp-rag-showcase.onrender.com"
 
 curl.exe -s "$svc/health"
 

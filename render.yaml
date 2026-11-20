@@ -1,6 +1,6 @@
 # Render blueprint — free tier, single service.
 # Reuses the same Dockerfile as docker compose, so there is one build definition.
-# No secrets and no env vars beyond PORT: the corpus is baked into the image.
+# The corpus is baked into the image; the only variable is PORT, which Render injects.
 
 services:
   - type: web
@@ -13,8 +13,5 @@ services:
     healthCheckPath: /health
     autoDeploy: true
     envVars:
-      # Render injects PORT; the app must bind 0.0.0.0 and read it. Kept explicit for local parity.
-      - key: PORT
-        value: 8080
       - key: PYTHONUNBUFFERED
         value: "1"

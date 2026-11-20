@@ -10,7 +10,7 @@ import time
 
 from fastapi import FastAPI, Query, Request
 from fastapi.exceptions import RequestValidationError
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from pydantic import BaseModel, Field
 
 from mcp_rag_py import CONTRACT_VERSION, __version__
@@ -158,6 +158,11 @@ def build_app(
     @app.exception_handler(RequestValidationError)
     async def handle_validation_error(_: Request, __: RequestValidationError) -> JSONResponse:
         return _error_response(RagError(ErrorCode.INVALID_ARGUMENT, "invalid request arguments"))
+
+    @app.get("/", include_in_schema=False)
+    def root() -> RedirectResponse:
+        """A bare domain should not answer 404. Humans land on Swagger, scripts read /openapi.json."""
+        return RedirectResponse(url="/docs", status_code=307)
 
     @app.get(
         "/health",

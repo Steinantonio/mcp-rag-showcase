@@ -12,6 +12,19 @@ corpus. No API keys, no model downloads, no vector database, no cloud spend.
 ![MCP](https://img.shields.io/badge/MCP-2.4%20%2F%202.3-6E56CF)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
+## Live demo
+
+**https://mcp-rag-showcase.onrender.com** — free tier: sleeps after 15 idle minutes, first request takes ~1 minute.
+
+| Surface | URL |
+|---|---|
+| Swagger UI | https://mcp-rag-showcase.onrender.com/docs |
+| Health + corpus stats | https://mcp-rag-showcase.onrender.com/health |
+| MCP (streamable HTTP) | `https://mcp-rag-showcase.onrender.com/mcp` |
+
+The bare domain redirects to `/docs`, so the first click lands on something usable. Only the Python service is
+deployed; the .NET one is proven in CI and in compose ([ADR 0003](docs/adr/0003-http-surfaces-and-render.md)).
+
 ## What it proves
 
 | Claim | How you check it |
@@ -97,10 +110,24 @@ Architecture in four analogies: [`docs/concepts.md`](docs/concepts.md).
 - **Cold start.** The deployed free instance sleeps after 15 idle minutes and takes ~1 minute to wake.
 - **No auth.** The corpus is authored for this repo and is public on purpose.
 
+## Roadmap
+
+The current design is a deliberate ceiling, not an accident. [`docs/roadmap.md`](docs/roadmap.md) lays out five
+stages from here — hybrid retrieval, a relational + vector store, grounded generation, ingestion and auth, and
+operations — each with cost, effort and, more usefully, **what it breaks**.
+
+| Stage | Adds | Kills |
+|---|---|---|
+| 1 | embeddings, hybrid scoring, rerank, eval harness | parity as written |
+| 2 | Postgres + `pgvector`, incremental index | "no database" |
+| 3 | grounded LLM answers with citation checks | determinism |
+| 4 | ingestion API, auth, tenancy | "clone and run" |
+| 5 | logs, metrics, tracing, paid instance | "R$ 0" |
+
 ## Docs
 
 [Concepts](docs/concepts.md) · [Tool contract](docs/tool-contract.md) · [Demo](docs/demo.md) ·
-[Deploy](docs/deploy.md) · [Methodology](docs/methodology.md) · [Build plan](docs/plan.md) · [OpenAPI](docs/openapi.yaml)
+[Deploy](docs/deploy.md) · [Roadmap](docs/roadmap.md) · [Methodology](docs/methodology.md) · [Build plan](docs/plan.md) · [OpenAPI](docs/openapi.yaml)
 
 ## License
 
