@@ -1,0 +1,29 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# .NET
+bin/
+obj/
+*.user
+TestResults/
+
+# Docker / compose
+.docker/
+compose.override.yaml
+
+# Editors / OS
+.vs/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local scratch
+*.local.md
+.env

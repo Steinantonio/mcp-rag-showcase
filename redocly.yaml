@@ -1,0 +1,10 @@
+# Lint config for docs/openapi.yaml
+# Run: npx --yes @redocly/cli@latest lint docs/openapi.yaml
+extends:
+  - recommended
+
+rules:
+  # The localhost server entry is the documented local dev target, on purpose.
+  no-server-example.com: off
+  # /health is a liveness probe: it has no client-error path, only 200/503.
+  operation-4xx-response: off

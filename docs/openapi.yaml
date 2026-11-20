@@ -1,0 +1,323 @@
+openapi: 3.1.0
+
+info:
+  title: mcp-rag-showcase REST facade
+  version: 1.0.0
+  summary: Read-only HTTP view over the same retrieval engine exposed by both MCP servers.
+  description: |
+    This is a **facade**, not the product. The product is the MCP tool surface described in
+    `docs/tool-contract.md`; the MCP transport is JSON-RPC and cannot be described by OpenAPI.
+
+    The REST endpoints exist so a human can poke the engine from a browser (Swagger UI at `/docs`)
+    without installing an MCP client, and so the deployed free instance is trivially demonstrable.
+    Responses are derived from the identical code path used by the `search`, `get_document` and
+    `answer` tools, so the two surfaces cannot drift.
+
+    All endpoints are read-only and unauthenticated. The corpus is public by design.
+  license:
+    name: MIT
+    identifier: MIT
+
+servers:
+  - url: http://localhost:8080
+    description: Local development
+  - url: https://mcp-rag-showcase.onrender.com
+    description: Render free tier — spins down after 15 min idle, first request may take ~60 s
+
+tags:
+  - name: health
+    description: Liveness and corpus statistics. Safe to poll.
+  - name: retrieval
+    description: Search and extractive answers over the corpus.
+  - name: documents
+    description: Raw document access by id.
+
+# Every operation is intentionally unauthenticated: the corpus is authored for this
+# repo and already public in git history. Declared explicitly so the absence of auth
+# is a decision rather than an omission.
+security: []
+
+paths:
+  /health:
+    get:
+      tags: [health]
+      operationId: getHealth
+      summary: Liveness and corpus stats
+      description: Cheap, allocation-free, and safe to poll. Never touches the network.
+      responses:
+        "200":
+          description: Service is up and the index is loaded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Health"
+        "503":
+          description: Index failed to build at boot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/v1/search:
+    get:
+      tags: [retrieval]
+      operationId: search
+      summary: Ranked chunks for a query
+      description: |
+        BM25 over the frozen tokenizer. Equivalent to the MCP `search` tool with the same arguments.
+        Chunks with a score of zero are never returned.
+      parameters:
+        - name: q
+          in: query
+          required: true
+          description: Free-text query, tokenized by the shared spec.
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 512
+          example: how do I rotate an api key
+        - name: k
+          in: query
+          required: false
+          description: Maximum number of chunks to return.
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 20
+            default: 5
+      responses:
+        "200":
+          description: Ranked chunks, possibly empty
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResponse"
+        "400":
+          description: Invalid arguments
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/v1/documents/{docId}:
+    get:
+      tags: [documents]
+      operationId: getDocument
+      summary: Full document by id
+      description: Equivalent to the MCP `get_document` tool.
+      parameters:
+        - name: docId
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: "^[a-z0-9]+(-[a-z0-9]+)*$"
+          example: ops-credentials
+      responses:
+        "200":
+          description: The document, unmodified
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Document"
+        "404":
+          description: Unknown document id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+  /api/v1/answer:
+    post:
+      tags: [retrieval]
+      operationId: answer
+      summary: Extractive answer with citations
+      description: |
+        Retrieves `k` chunks, selects up to three source sentences, and returns them verbatim with citations.
+        No generative model is involved, so the same question always yields the same answer.
+        `grounded` is false when nothing in the corpus matches.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AnswerRequest"
+            example:
+              query: how do I rotate an api key
+              k: 3
+      responses:
+        "200":
+          description: Extractive answer, grounded or not
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AnswerResponse"
+        "400":
+          description: Invalid arguments
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  schemas:
+    Health:
+      type: object
+      additionalProperties: false
+      required: [status, contractVersion, version, corpus, uptimeSeconds]
+      properties:
+        status:
+          type: string
+          const: ok
+        contractVersion:
+          type: integer
+          const: 1
+        version:
+          type: string
+          description: Application version, taken from the build.
+          example: 0.1.0
+        uptimeSeconds:
+          type: number
+          example: 12.4
+        corpus:
+          type: object
+          additionalProperties: false
+          required: [documents, chunks, tokens, avgChunkTokens]
+          properties:
+            documents:
+              type: integer
+              example: 15
+            chunks:
+              type: integer
+              example: 63
+            tokens:
+              type: integer
+              example: 4820
+            avgChunkTokens:
+              type: number
+              description: The BM25 `avgdl` value, exposed for debugging score drift.
+              example: 76.5
+
+    Chunk:
+      type: object
+      additionalProperties: false
+      required: [docId, chunkId, title, heading, score, citation, text]
+      properties:
+        docId:
+          type: string
+          example: ops-credentials
+        chunkId:
+          type: string
+          description: "`{docId}#{two-digit index}`"
+          example: "ops-credentials#02"
+        title:
+          type: string
+          example: Rotating API keys
+        heading:
+          type: string
+          description: H2 heading of the section, empty when the chunk precedes the first H2.
+          example: How to rotate
+        score:
+          type: number
+          description: BM25 score rounded to 4 decimals for display only. Ordering uses the unrounded value.
+          example: 0.8421
+        citation:
+          type: string
+          description: Stable citation handle; equals `chunkId` in contract v1.
+          example: "ops-credentials#02"
+        text:
+          type: string
+          description: Chunk body, verbatim.
+
+    SearchResponse:
+      type: object
+      additionalProperties: false
+      required: [query, k, totalMatched, results]
+      properties:
+        query:
+          type: string
+        k:
+          type: integer
+        totalMatched:
+          type: integer
+          description: Number of chunks with a score above zero, before truncation to `k`.
+          example: 7
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/Chunk"
+
+    Document:
+      type: object
+      additionalProperties: false
+      required: [docId, title, tags, chunkCount, markdown, source]
+      properties:
+        docId:
+          type: string
+          example: ops-credentials
+        title:
+          type: string
+          example: Rotating API keys
+        tags:
+          type: array
+          items:
+            type: string
+          example: [security, credentials, api]
+        chunkCount:
+          type: integer
+          example: 3
+        markdown:
+          type: string
+          description: File content exactly as stored, normalized to LF.
+        source:
+          type: string
+          example: corpus/ops-credentials.md
+
+    AnswerRequest:
+      type: object
+      additionalProperties: false
+      required: [query]
+      properties:
+        query:
+          type: string
+          minLength: 1
+          maxLength: 512
+        k:
+          type: integer
+          minimum: 1
+          maximum: 10
+          default: 3
+
+    AnswerResponse:
+      type: object
+      additionalProperties: false
+      required: [query, answer, citations, grounded]
+      properties:
+        query:
+          type: string
+        answer:
+          type: string
+        citations:
+          type: array
+          items:
+            type: string
+          example: ["ops-credentials#02", "ops-runbook#04"]
+        grounded:
+          type: boolean
+          description: False when no chunk scored above zero; `answer` then carries a fixed no-match sentence.
+
+    Error:
+      type: object
+      additionalProperties: false
+      required: [error]
+      properties:
+        error:
+          type: object
+          additionalProperties: false
+          required: [code, message]
+          properties:
+            code:
+              type: string
+              enum: [INVALID_ARGUMENT, DOC_NOT_FOUND, CORPUS_UNAVAILABLE, INTERNAL]
+            message:
+              type: string
