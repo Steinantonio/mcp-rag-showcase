@@ -12,15 +12,19 @@ Status legend: `todo` · `in progress` · `done`
 
 ## Waves
 
-| # | Wave | Deliverable | Status |
-|---|---|---|---|
-| W0 | Documentation | README, tool contract, OpenAPI (lint-clean), 3 ADRs, this plan, LICENSE, render.yaml | **done** |
-| W1 | Corpus | 15 authored docs + `golden/queries.json` with hand-derived expectations | todo |
-| W2 | Python service | MCP + REST + BM25 + chunker + pytest + Dockerfile | todo |
-| W3 | .NET service | MCP + BM25 + chunker + xunit + tokenizer differential test + Dockerfile | todo |
-| W4 | Automation | compose, PowerShell lifecycle scripts, `render.yaml`, deploy notes, demo transcript | todo |
-| W5 | CI + polish | GitHub Actions (5 jobs), OpenAPI drift check, badges, final README pass | todo |
-| W6 | Optional | Ollama generator behind a flag, MCP Inspector walkthrough | deferred |
+| # | Wave | Spec | Deliverable | Status |
+|---|---|---|---|---|
+| W0 | Documentation | SPEC-000 | README, tool contract, OpenAPI (lint-clean), 3 ADRs, plan, LICENSE, render.yaml | **done** |
+| W0.5 | Methodology | SPEC-000 | `AGENTS.md`, `specs/` (constitution + 000/001/002), `agents/` (6 + pilot), `templates/`, `docs/methodology.md`, ADR 0004 | **done** |
+| W1 | Corpus | SPEC-001 | 15 authored docs + `corpus/golden/queries.json` with hand-derived expectations | **done** |
+| W2 | PoC core | SPEC-002 | Pure core (tokenizer, chunker, BM25, engine) + CLI + REST/OpenAPI + tests | todo |
+| W3 | MCP + parity | SPEC-003 | MCP servers in Python and .NET, tokenizer differential test, parity runner, Dockerfiles | todo |
+| W4 | Automation | SPEC-004 | compose, PowerShell lifecycle scripts, `render.yaml`, deploy notes, demo transcript | todo |
+| W5 | CI + polish | SPEC-005 | GitHub Actions (5 jobs), OpenAPI drift check, badges, final README pass | todo |
+| W6 | Optional | — | Ollama generator behind a flag, MCP Inspector walkthrough | deferred |
+
+Each wave is a spec: written, approved, implemented, then evidenced. Specs 003–005 are written at the start of their
+wave, not in advance.
 
 ---
 
@@ -29,13 +33,15 @@ Status legend: `todo` · `in progress` · `done`
 **Why first:** every downstream number depends on it. `avgdl` and `N` come from the corpus, so hand-derived golden
 expectations must be written against a frozen corpus. Editing corpus after W3 means re-deriving everything.
 
-Content: a fictional internal operations handbook — 15 markdown files, 400–900 words each, H2-sectioned, with
-overlapping vocabulary across documents (so ranking is non-trivial) and at least three near-duplicate topics (so the
-tie-break rule is exercised).
+Content: a fictional internal operations handbook — 15 markdown files, 300–600 words each, 3–5 H2 sections, with
+overlapping vocabulary across documents (so ranking is non-trivial) and three near-duplicate clusters (so BM25 and
+the tie-break rule are exercised, not vocabulary alone).
 
-Suggested doc set: `ops-onboarding`, `ops-credentials`, `ops-runbook`, `ops-incidents`, `ops-backups`,
+Document set: `ops-onboarding`, `ops-credentials`, `ops-runbook`, `ops-incidents`, `ops-backups`,
 `ops-monitoring`, `ops-networking`, `ops-deployments`, `ops-access-review`, `ops-faq`, `ops-glossary`,
 `ops-escalation`, `ops-data-retention`, `ops-cost-controls`, `ops-changelog`.
+
+Clusters: credentials/runbook/faq · incidents/escalation · backups/data-retention.
 
 **Acceptance**
 
@@ -47,51 +53,58 @@ Suggested doc set: `ops-onboarding`, `ops-credentials`, `ops-runbook`, `ops-inci
 
 ---
 
-## W2 — Python service
+## W2 — PoC core (the RAG, with no MCP anywhere)
+
+This is the proof-of-concept milestone: corpus → chunks → BM25 → citations → extractive answer, reachable from a
+terminal and a browser. If this wave is green, the RAG works and the rest is doors.
 
 Layout:
 
 ```
 src/mcp_rag_py/
-  __main__.py        # argparse: --stdio | --http --port | ingest | query
-  corpus.py          # front-matter parse, chunker (spec §1–2)
-  tokenizer.py       # spec §3
-  bm25.py            # spec §4
-  engine.py          # search / get_document / answer (spec §5)
-  mcp_server.py      # tool registration, stdio + streamable HTTP
-  rest.py            # FastAPI app: /health, /api/v1/*, /docs, /openapi.json
-  settings.py
+  core/
+    errors.py        # RagError codes, contract §6
+    tokenizer.py     # contract §3
+    chunker.py       # contract §1–2
+    bm25.py          # contract §4
+    engine.py        # search / get_document / answer, contract §5
+  adapters/
+    corpus_fs.py     # restricted front matter parser + filesystem loader
+    rest.py          # FastAPI: /health, /api/v1/*, /docs, /openapi.json
+  apps/
+    cli.py           # ingest | query
+    http.py          # composition root
 tests/
-  test_tokenizer.py test_chunker.py test_bm25.py test_engine.py test_rest.py
+  unit/  conformance/  integration/  arch/
 ```
 
-Dependencies kept to `mcp`, `fastapi`, `uvicorn`, `pytest`, `httpx`. No numpy — a 5k-token corpus does not need it,
-and dropping it keeps the image small enough for a fast free-tier build.
+Dependencies: `fastapi`, `uvicorn`, `pytest`, `httpx`, `import-linter`. No numpy, no `mcp` in this wave.
 
 **Acceptance**
 
-- [ ] `pytest` green, including the 10 golden cases (as `pytest.mark.parametrize`).
+- [ ] `pytest` green, including the 10 golden cases (as `pytest.mark.parametrize`) and the architecture test.
 - [ ] `python -m mcp_rag_py ingest` prints `15 documents, N chunks, avgdl X`.
-- [ ] `python -m mcp_rag_py --http` serves `/docs` with all four endpoints.
-- [ ] `GET /openapi.json` output matches `docs/openapi.yaml` semantically (the CI diff in W5 formalizes this).
-- [ ] `docker build -f infra/Dockerfile.py` succeeds; container starts in < 3 s; RSS < 120 MB (checked via
-      `docker stats` in CI logs).
+- [ ] `python -m mcp_rag_py query "how do I rotate an api key"` prints ranked citations.
+- [ ] `uvicorn` serves `/docs`; `400`/`404` codes match contract §6.
+- [ ] Two runs produce byte-identical JSON.
 
 ---
 
-## W3 — .NET service
+## W3 — MCP servers and parity
 
 Layout:
 
 ```
+src/mcp_rag_py/adapters/mcp_server.py   # tools over stdio + streamable HTTP
 src/Mcp.Rag.Dotnet/
   Program.cs             # host + transport switch (stdio default, --http for container)
-  Corpus/Chunker.cs      # spec §1–2
-  Corpus/Tokenizer.cs    # spec §3
-  Ranking/Bm25.cs        # spec §4
-  Engine/RagEngine.cs    # search / get_document / answer (spec §5)
-  McpTools.cs            # [McpServerTool] registrations
-tests/Mcp.Rag.Dotnet.Tests/   # xunit: mirror of the Python test names
+  Core/Chunker.cs        # contract §1–2
+  Core/Tokenizer.cs      # contract §3
+  Core/Bm25.cs           # contract §4
+  Core/RagEngine.cs      # contract §5
+  Adapters/McpTools.cs   # [McpServerTool] registrations
+tests/Mcp.Rag.Dotnet.Tests/    # xunit: mirrors the Python test names
+tests/conformance/             # parity runner: both servers, same queries
 ```
 
 Pinned to `ModelContextProtocol` **2.4.0** (stable) and `ModelContextProtocol.AspNetCore` 2.4.0. Target `net10.0`.
@@ -101,9 +114,9 @@ Pinned to `ModelContextProtocol` **2.4.0** (stable) and `ModelContextProtocol.As
 - [ ] `dotnet test` green, including the 10 golden cases.
 - [ ] Tokenizer differential test: 200 fixed strings → identical token lists to the Python tokenizer (fixture file
       shared by both suites, so a divergence names the offending string).
-- [ ] `dotnet run --project src/Mcp.Rag.Dotnet` speaks MCP over stdio; verified with the MCP Inspector in W6 or a
-      scripted JSON-RPC exchange in W4.
-- [ ] `docker build -f infra/Dockerfile.net` succeeds.
+- [ ] Parity runner: same 10 queries, both servers, identical `docId` sequences.
+- [ ] `dotnet run --project src/Mcp.Rag.Dotnet` speaks MCP over stdio; verified with a scripted JSON-RPC exchange.
+- [ ] `docker build -f infra/Dockerfile.py` and `infra/Dockerfile.net` succeed; Python container RSS < 120 MB.
 
 ---
 

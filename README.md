@@ -149,14 +149,28 @@ Both servers support stdio (for desktop clients) and streamable HTTP (for contai
 
 ```
 corpus/                    15 authored markdown docs + golden/queries.json
-src/Mcp.Rag.Dotnet/        MCP server, BM25, chunker (C#)
-src/mcp_rag_py/            MCP server, REST facade, BM25, chunker (Python)
-tests/conformance/         replays golden vectors against both servers
+src/Mcp.Rag.Dotnet/        Core/ (tokenizer, chunker, BM25, engine) + Adapters/ (MCP tools)
+src/mcp_rag_py/            core/ (pure) + adapters/ (REST, MCP, filesystem) + apps/ (CLI, root)
+tests/conformance/         golden vectors replayed against both servers
+tests/arch/                import-linter and NetArchTest boundaries
 infra/                     Dockerfile x2, compose.yaml, main.bicep
 scripts/                   bootstrap · test · serve · up · smoke · down · clean
-docs/                      tool contract, ADRs, plan, OpenAPI spec
+specs/                     SDD: constitution, spec/plan/tasks per capability
+agents/                    the six agent definitions and their conventions
+templates/                 handoff, delegation brief, ADR, evidence log
+docs/                      concepts, methodology, tool contract, ADRs, plan, OpenAPI
 render.yaml                free-tier deployment of the Python service
 ```
+
+## How it was built
+
+The repository is spec-driven, and the process is an artifact too: `specs/` holds the constitution, the specs and the
+task lists; `agents/` holds the six agent roles that built it; `docs/methodology.md` explains the loop, and
+`docs/ai/` records what each agent produced, what was validated and what was rejected.
+
+- **Mental model first:** [`docs/concepts.md`](docs/concepts.md) — four analogies and three diagrams.
+- **Process:** [`docs/methodology.md`](docs/methodology.md) and [`AGENTS.md`](AGENTS.md).
+- **What must be true, and in which order:** [`specs/README.md`](specs/README.md).
 
 ## Zero-cost by design
 
