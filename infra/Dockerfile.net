@@ -10,7 +10,7 @@ COPY corpus/ corpus/
 
 RUN dotnet publish src/Mcp.Rag.Dotnet/Mcp.Rag.Dotnet.csproj -c Release -o /app
 
-FROM mcr.microsoft.com/dotnet/runtime:10.0
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
 
 # curl is only for the compose healthcheck; the runtime image ships without it.
 RUN apt-get update \

@@ -63,7 +63,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Pre-pull base images (Docker Hub flakes are not our bugs)
         run: |
-          for image in python:3.12-slim mcr.microsoft.com/dotnet/sdk:10.0 mcr.microsoft.com/dotnet/runtime:10.0; do
+          for image in python:3.12-slim mcr.microsoft.com/dotnet/sdk:10.0 mcr.microsoft.com/dotnet/aspnet:10.0; do
             for attempt in 1 2 3 4; do
               if docker pull "$image"; then break; fi
               echo "pull failed for $image (attempt $attempt), retrying"
