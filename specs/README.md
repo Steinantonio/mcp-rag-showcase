@@ -87,7 +87,7 @@ if it needs more, split it.
 | SPEC-002 | Retrieval core and PoC surface (CLI + REST) | implemented | R-02, R-03, R-05, R-07 | W2 |
 | SPEC-003 | MCP servers (Python + .NET) and cross-language parity | implemented | R-01, R-03 | W3 |
 | SPEC-004 | Automation, containers and free-tier deploy | implementing | R-08, R-09 | W4 |
-| SPEC-005 | CI and contract guards | implementing | R-10 | W5 |
+| SPEC-005 | CI and contract guards | implemented | R-10 | W5 |
 
 Specs 003–005 are written at the start of their wave, not in advance. A spec written before its inputs exist is
 fiction, and fiction in a spec is worse than no spec.

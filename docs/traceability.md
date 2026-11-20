@@ -14,9 +14,9 @@ it. A requirement is `done` only when the evidence exists and is real.
 | R-05 | Answers are extractive and always carry citations | SPEC-002 | `tests/unit/test_engine.py::test_answer_is_extractive_ac_002_05` | proven |
 | R-06 | A query with no lexical match returns zero chunks | SPEC-001, SPEC-002 | golden `no-match` + `test_search_with_no_lexical_match_returns_nothing` | proven |
 | R-07 | The core imports no framework, transport or filesystem API | SPEC-002 | `lint-imports`: `1 kept, 0 broken` | proven (Python; .NET in SPEC-003) |
-| R-08 | The system runs in containers from one compose file | SPEC-004 | `compose.yaml` written; `docker compose up` pending CI (SPEC-005) | partial |
+| R-08 | The system runs in containers from one compose file | SPEC-004 | CI `containers` job: both images build, both healthy, 5/5 smoke | proven |
 | R-09 | Deployment costs nothing and requires no secret | SPEC-004 | `docs/deploy.md`, `render.yaml`; live URL pending owner | todo |
-| R-10 | CI verifies build, tests, parity, containers, IaC and contract drift | SPEC-005 | `.github/workflows/ci.yml` (5 jobs); first green run pending push | partial |
+| R-10 | CI verifies build, tests, parity, containers, IaC and contract drift | SPEC-005 | run 44820676838: 5/5 jobs green | proven |
 
 ## Accepted risks
 

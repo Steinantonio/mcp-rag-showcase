@@ -1,6 +1,6 @@
 # SPEC-005 — CI and contract guards
 
-- **Status:** approved
+- **Status:** implemented
 - **Owner:** architect
 - **Approved by:** orchestrator (owner decision, 2026-11-20)
 - **Requirements:** R-10
