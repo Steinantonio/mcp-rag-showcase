@@ -116,15 +116,21 @@ cd mcp-rag-showcase
 ./scripts/smoke.ps1       # calls both servers, prints rankings side by side
 ```
 
-`smoke.ps1` is the money shot — the same query against both servers, identical citations. Expected shape (the
-verbatim transcript from a real run lands here at W4, see `docs/plan.md`):
+`smoke.ps1` is the money shot — the same query against both servers, over MCP, identical citations. Real output:
 
 ```
 query: how do I rotate an api key
-  dotnet  ops-credentials#02  0.8421   python  ops-credentials#02  0.8421   MATCH
-  dotnet  ops-runbook#04      0.5107   python  ops-runbook#04      0.5107   MATCH
-  dotnet  ops-faq#01          0.4390   python  ops-faq#01          0.4390   MATCH
+  python  ops-credentials#02  ops-credentials#00  ops-credentials#01
+  dotnet  ops-credentials#02  ops-credentials#00  ops-credentials#01
+  MATCH
+
+query: restore a database backup
+  python  ops-backups#00  ops-data-retention#01  ops-faq#01
+  dotnet  ops-backups#00  ops-data-retention#01  ops-faq#01
+  MATCH
 ```
+
+Full transcript: [`docs/demo.md`](docs/demo.md).
 
 ## Use it from an MCP client
 
@@ -145,6 +151,17 @@ query: how do I rotate an api key
 
 Both servers support stdio (for desktop clients) and streamable HTTP (for containers). Same tools either way.
 
+Over HTTP, both expose the same route — Python on `:8080`, .NET on `:8081`:
+
+```json
+{
+  "mcpServers": {
+    "rag-python-http": { "url": "http://localhost:8080/mcp" },
+    "rag-dotnet-http": { "url": "http://localhost:8081/mcp" }
+  }
+}
+```
+
 ## Layout
 
 ```
@@ -153,7 +170,8 @@ src/Mcp.Rag.Dotnet/        Core/ (tokenizer, chunker, BM25, engine) + Adapters/ 
 src/mcp_rag_py/            core/ (pure) + adapters/ (REST, MCP, filesystem) + apps/ (CLI, root)
 tests/conformance/         golden vectors replayed against both servers
 tests/arch/                import-linter and NetArchTest boundaries
-infra/                     Dockerfile x2, compose.yaml, main.bicep
+compose.yaml               both services, healthchecks, read-only corpus mount
+infra/                     Dockerfile x2, main.bicep
 scripts/                   bootstrap · test · serve · up · smoke · down · clean
 specs/                     SDD: constitution, spec/plan/tasks per capability
 agents/                    the six agent definitions and their conventions

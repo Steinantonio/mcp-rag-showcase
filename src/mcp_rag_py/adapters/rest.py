@@ -134,7 +134,12 @@ def _to_answer_response(answer: CoreAnswer) -> AnswerResponse:
     )
 
 
-def build_app(engine: RagEngine, *, started_at: float | None = None) -> FastAPI:
+def build_app(
+    engine: RagEngine,
+    *,
+    started_at: float | None = None,
+    lifespan: object | None = None,
+) -> FastAPI:
     started = time.monotonic() if started_at is None else started_at
 
     app = FastAPI(
@@ -147,6 +152,7 @@ def build_app(engine: RagEngine, *, started_at: float | None = None) -> FastAPI:
             "without installing an MCP client. Responses come from the identical code path used by the tools."
         ),
         license_info={"name": "MIT"},
+        lifespan=lifespan,
     )
 
     @app.exception_handler(RequestValidationError)

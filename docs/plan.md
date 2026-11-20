@@ -19,7 +19,7 @@ Status legend: `todo` · `in progress` · `done`
 | W1 | Corpus | SPEC-001 | 15 authored docs + `corpus/golden/queries.json` with hand-derived expectations | **done** |
 | W2 | PoC core | SPEC-002 | Pure core (tokenizer, chunker, BM25, engine) + CLI + REST/OpenAPI + tests | **done** |
 | W3 | MCP + parity | SPEC-003 | MCP servers in Python and .NET, tokenizer differential test, parity runner, Dockerfiles | **done** |
-| W4 | Automation | SPEC-004 | compose, PowerShell lifecycle scripts, `render.yaml`, deploy notes, demo transcript | todo |
+| W4 | Automation | SPEC-004 | compose, PowerShell lifecycle scripts, `render.yaml`, deploy notes, demo transcript | **in progress** (compose pending CI) |
 | W5 | CI + polish | SPEC-005 | GitHub Actions (5 jobs), OpenAPI drift check, badges, final README pass | todo |
 | W6 | Optional | — | Ollama generator behind a flag, MCP Inspector walkthrough | deferred |
 

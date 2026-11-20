@@ -22,9 +22,13 @@
 | T-003-11 | .NET: `Program.cs` (stdio + CLI composition root) | dotnet-implementer | T-003-10 | `dotnet run -- --cli query ... --json` | done |
 | T-003-12 | .NET: architecture test (NetArchTest) | dotnet-implementer | T-003-09 | `ArchitectureTests.cs` (2 tests, AC-003-04) | done |
 | T-003-13 | Parity runner: CLI JSON comparison | conformance-engineer | T-003-09, T-003-02 | `parity_runner.py` (AC-003-03) | done |
-| T-003-14 | Dockerfiles for both services | conformance-engineer | T-003-11, T-003-02 | `infra/Dockerfile.{py,net}` | done |
+| T-003-14 | Dockerfiles for both services | conformance-engineer | T-003-11, T-003-02 | `infra/Dockerfile.{py,net}` written; **build not verified locally** (no Docker) — CI in SPEC-005 | partial |
 
 ## Notes
+
+- **Correction:** T-003-14 was marked `done` when the wave closed, but the images were never built: Docker is not
+  installed on the author's machine. The Dockerfiles exist and were reviewed structurally; AC-003-06 stays unproven
+  until CI runs `docker build`. Recorded here rather than left as a false green.
 
 - 26 .NET tests pass (24 unit/conformance + 2 architecture), 69 Python tests pass. Parity runner: 10/10 cases
   produce identical `docId` sequences.

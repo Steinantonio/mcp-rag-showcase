@@ -13,9 +13,16 @@ RUN dotnet publish src/Mcp.Rag.Dotnet/Mcp.Rag.Dotnet.csproj -c Release -o /app
 
 FROM mcr.microsoft.com/dotnet/runtime:10.0
 
+# curl is only for the compose healthcheck; the runtime image ships without it.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 COPY --from=build /app .
 COPY --from=build /src/corpus/ corpus/
 
-ENV MCP_RAG_CORPUS=corpus
-ENTRYPOINT ["dotnet", "Mcp.Rag.Dotnet.dll"]
+ENV MCP_RAG_CORPUS=/app/corpus
+EXPOSE 8081
+
+ENTRYPOINT ["dotnet", "Mcp.Rag.Dotnet.dll", "--http", "--port", "8081"]
