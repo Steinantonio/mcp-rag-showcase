@@ -122,7 +122,8 @@ Pinned to `ModelContextProtocol` **2.4.0** (stable) and `ModelContextProtocol.As
 
 ## W4 — Automation and deployment
 
-Scripts (PowerShell 7, `#Requires -Version 7.0`, `$ErrorActionPreference = 'Stop'`):
+Scripts (Windows PowerShell 5.1+ compatible — PowerShell 7 is **not** installed on the author's machine, so no
+.NET Core-only APIs and no `pwsh` shebang):
 
 | Script | Does |
 |---|---|
@@ -175,6 +176,7 @@ Scripts (PowerShell 7, `#Requires -Version 7.0`, `$ErrorActionPreference = 'Stop
 | Hand-derived golden expectations are wrong | medium | derive twice (once per implementation, independently) and reconcile against the spec, not against each other |
 | Free-tier cold start makes the live demo look broken | high | document it, link `/health`, keep the service warm only during a demo |
 | No Docker locally → container feedback only in CI | certain | native smoke first (W4), container verification in CI; optionally install Docker Desktop or Podman |
+| PowerShell 7 is not installed (5.1 only) | certain | scripts target 5.1+; `sync-agents.ps1` was rewritten after hitting `Path.GetRelativePath`, which is .NET Core-only |
 | Corpus too small → rankings are trivially all-zero or all-first | medium | W1 requires overlapping vocabulary and near-duplicates; zero-match case catches over-matching |
 | Scope creep (eval harness, hybrid search, auth) | medium | the "Not built on purpose" section in the README is the contract with the reader |
 

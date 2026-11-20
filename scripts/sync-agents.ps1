@@ -1,4 +1,4 @@
-#Requires -Version 7.0
+#Requires -Version 5.1
 <#
 .SYNOPSIS
     Copies the canonical agent definitions into the OpenCode discovery path.
@@ -10,25 +10,32 @@
 
     README.md is excluded: it is documentation, not an agent.
 
+    Written to run on Windows PowerShell 5.1 and PowerShell 7+; no .NET Core-only APIs.
+
 .PARAMETER WorkspaceRoot
-    Workspace root that contains both this repository and .opencode/.
+    Workspace root that contains both this repository and .opencode/. Defaults to the parent of the repo.
 
 .PARAMETER WhatIf
     Show what would be copied without copying.
 
 .EXAMPLE
     ./scripts/sync-agents.ps1
+
+.EXAMPLE
+    ./scripts/sync-agents.ps1 -WhatIf
 #>
 [CmdletBinding(SupportsShouldProcess)]
 param(
-    [string] $WorkspaceRoot = (Split-Path -Parent (Split-Path -Parent $PSScriptRoot))
+    [string] $WorkspaceRoot
 )
 
 $ErrorActionPreference = 'Stop'
 
-$repoRoot   = Split-Path -Parent $PSScriptRoot
+$repoRoot = Split-Path -Parent $PSScriptRoot
+if (-not $WorkspaceRoot) { $WorkspaceRoot = Split-Path -Parent $repoRoot }
+
 $sourceRoot = Join-Path $repoRoot 'agents'
-$targetRoot = Join-Path $WorkspaceRoot '.opencode/agents/mcp_rag_showcase'
+$targetRoot = Join-Path $WorkspaceRoot '.opencode\agents\mcp_rag_showcase'
 
 if (-not (Test-Path $sourceRoot)) { throw "Agent source not found: $sourceRoot" }
 
@@ -37,9 +44,11 @@ $files = Get-ChildItem -Path $sourceRoot -Recurse -File -Filter '*.md' |
 
 if (-not $files) { throw "No agent definitions found in $sourceRoot" }
 
+$count = 0
 foreach ($file in $files) {
-    $relative = [System.IO.Path]::GetRelativePath($sourceRoot, $file.FullName)
-    $target   = Join-Path $targetRoot $relative
+    # Relative path without [System.IO.Path]::GetRelativePath, which does not exist on 5.1.
+    $relative  = $file.FullName.Substring($sourceRoot.Length).TrimStart('\', '/')
+    $target    = Join-Path $targetRoot $relative
     $targetDir = Split-Path -Parent $target
 
     if (-not (Test-Path $targetDir)) {
@@ -51,10 +60,15 @@ foreach ($file in $files) {
     if ($PSCmdlet.ShouldProcess($target, 'Copy agent definition')) {
         Copy-Item -Path $file.FullName -Destination $target -Force
         Write-Host "synced  $relative"
+        $count++
     }
 }
 
 Write-Host ""
-Write-Host "Agents synced to $targetRoot"
-Write-Host "Restart OpenCode (or start a new session) so discovery picks them up."
+if ($count -eq 0) {
+    Write-Host "Nothing copied (dry run)."
+} else {
+    Write-Host "$count agent definitions synced to $targetRoot"
+    Write-Host "Restart OpenCode (or start a new session) so discovery picks them up."
+}
 Write-Host "Edit agents/ in the repo, never the copies."
